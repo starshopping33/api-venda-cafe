@@ -14,5 +14,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::post('/fila/entrar', [VendasController::class, 'entrarFila']);
-Route::post('/fila/comprar', [VendasController::class, 'registrarCompra']);
+Route::post('/fila/comprar', [VendasController::class, 'FazerCompra']);
 Route::get('/fila', [VendasController::class, 'listarFila']);
