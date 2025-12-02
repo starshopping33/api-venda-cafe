@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestCadastro;
 use App\Http\Requests\RequestLogin;
+use App\Http\Requests\RequestUpdate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -56,4 +57,55 @@ class AuthController extends Controller
             'message' => 'Logout realizado com sucesso!'
         ]);
     }
+
+    public function delete($id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+            'message' => 'Usuário não encontrado'
+        ], 404);
+    }
+
+    $user->delete();
+
+    return response()->json([
+        'message' => 'Usuário deletado com sucesso'
+    ]);
+}
+
+public function update(RequestUpdate $request, $id)
+{
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json([
+            'message' => 'Usuário não encontrado'
+        ], 404);
+    }
+
+    $dados = $request->all();
+
+    if (isset($dados['nome_de_usuario'])) {
+        $user->name = $dados['nome_de_usuario'];
+    }
+
+    if (isset($dados['email'])) {
+        $user->email = $dados['email'];
+    }
+
+    if (isset($dados['password'])) {
+        $user->password = Hash::make($dados['password']);
+    }
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Usuário atualizado com sucesso',
+        'user' => $user
+    ]);
+}
+
+    
 }
