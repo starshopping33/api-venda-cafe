@@ -27,6 +27,16 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function usuarios()
+{
+    $users = User::all(); 
+
+    return response()->json([
+        'message' => 'Lista de usuários carregada com sucesso',
+        'users' => $users
+    ]);
+}
+
 public function login(RequestLogin $request)
 {
     $credentials = $request->only('email', 'password');
